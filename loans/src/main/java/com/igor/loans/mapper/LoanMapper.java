@@ -20,14 +20,14 @@ public class LoanMapper {
         .build();
   }
 
-  public static Loans mapToLoan(LoansDto loansDto) {
+  public static Loans mapToLoan(String mobileNumber) {
     return Loans.builder()
-        .mobileNumber(loansDto.getMobileNumber())
-        .loanNumber(loansDto.getLoanNumber())
-        .loanType(loansDto.getLoanType())
-        .totalLoan(loansDto.getTotalLoan())
-        .amountPaid(loansDto.getAmountPaid())
-        .outstandingAmount(loansDto.getOutstandingAmount())
+        .mobileNumber(mobileNumber)
+        .loanType("Personal Loan")
+        .loanNumber("LN" + System.currentTimeMillis())
+        .totalLoan(500000)
+        .amountPaid(0)
+        .outstandingAmount(500000)
         .build();
   }
 }

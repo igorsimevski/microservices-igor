@@ -1,5 +1,6 @@
 package com.igor.loans.service.impl;
 
+import com.igor.common.exception.ResourceExistsException;
 import com.igor.common.exception.ResourceNotFoundException;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.entity.Loans;
@@ -19,14 +20,14 @@ public class LoansServiceImpl implements LoansService {
   private LoansRepository loansRepository;
 
   @Override
-  public void createLoan(LoansDto loanDto) {
+  public void createLoan(String mobileNumber) {
     Optional<Loans> optionalLoan =
-        loansRepository.findByMobileNumber(loanDto.getMobileNumber());
+        loansRepository.findByMobileNumber(mobileNumber);
     if (optionalLoan.isPresent()) {
-      throw new IllegalArgumentException(
-          "Loan already registered with given mobileNumber " + loanDto.getMobileNumber());
+      throw new ResourceExistsException(
+          "Loan already registered with given mobileNumber " + mobileNumber);
     }
-    Loans loan = LoanMapper.mapToLoan(loanDto);
+    Loans loan = LoanMapper.mapToLoan(mobileNumber);
     loan.setLoanId(1000000000L + RANDOM.nextInt(900000000));
     loansRepository.save(loan);
   }

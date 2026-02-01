@@ -5,7 +5,7 @@ import com.igor.accounts.dto.AccountsDto;
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.entity.Accounts;
 import com.igor.accounts.entity.Customer;
-import com.igor.accounts.exception.CustomerAlreadyExistsException;
+import com.igor.common.exception.ResourceExistsException;
 import com.igor.common.exception.ResourceNotFoundException;
 import com.igor.accounts.mapper.AccountsMapper;
 import com.igor.accounts.mapper.CustomerMapper;
@@ -36,7 +36,7 @@ public class AccountsServiceImpl implements IAccountsService {
     Optional<Customer> optionalCustomer =
         customerRepository.findByMobileNumber(customerDto.getMobileNumber());
     if (optionalCustomer.isPresent()) {
-      throw new CustomerAlreadyExistsException(
+      throw new ResourceExistsException(
           "Customer already registered with given mobileNumber " + customerDto.getMobileNumber());
     }
     Customer savedCustomer = customerRepository.save(customer);

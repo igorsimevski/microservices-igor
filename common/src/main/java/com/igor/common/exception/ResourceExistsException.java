@@ -1,12 +1,12 @@
-package com.igor.accounts.exception;
+package com.igor.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class CustomerAlreadyExistsException extends RuntimeException {
+public class ResourceExistsException extends RuntimeException {
 
-  public CustomerAlreadyExistsException(String message) {
+  public ResourceExistsException(String message) {
     super(message);
   }
 }

@@ -4,6 +4,7 @@ import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ResponseDto;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,11 +27,11 @@ public class LoansController {
   private LoansService loansService;
 
   @PostMapping("create")
-  public ResponseEntity<ResponseDto> createLoan() {
-    loansService.createLoan(LoansDto.builder()
-        .mobileNumber("someM")
-        .loanNumber("someN")
-        .loanType("someT").build());
+  public ResponseEntity<ResponseDto> createLoan(
+      @RequestParam
+      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      String mobileNumber) {
+    loansService.createLoan(mobileNumber);
     return ResponseEntity.ok(ResponseDto.builder()
         .statusCode(CommonConstants.STATUS_201)
         .statusMsg(String.format(CommonConstants.MESSAGE_201, RESOURCE_NAME_LOAN))

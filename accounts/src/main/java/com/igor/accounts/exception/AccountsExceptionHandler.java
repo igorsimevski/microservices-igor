@@ -1,6 +1,7 @@
 package com.igor.accounts.exception;
 
 import com.igor.common.dto.ErrorResponseDto;
+import com.igor.common.exception.ResourceExistsException;
 import com.igor.common.exception.ResourceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -63,9 +64,9 @@ public class AccountsExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
   }
 
-  @ExceptionHandler(CustomerAlreadyExistsException.class)
+  @ExceptionHandler(ResourceExistsException.class)
   public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(
-      CustomerAlreadyExistsException exception,
+      ResourceExistsException exception,
       WebRequest webRequest) {
     ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
         webRequest.getDescription(false),
