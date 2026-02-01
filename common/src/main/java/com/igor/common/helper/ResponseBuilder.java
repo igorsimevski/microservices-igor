@@ -1,4 +1,4 @@
-package com.igor.loans.controller;
+package com.igor.common.helper;
 
 import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ResponseDto;
@@ -11,7 +11,7 @@ public class ResponseBuilder {
 
   private final String resourceName;
 
-  ResponseEntity<ResponseDto> createSuccess() {
+  public ResponseEntity<ResponseDto> createSuccess() {
     return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(ResponseDto.builder()
@@ -20,11 +20,11 @@ public class ResponseBuilder {
             .build());
   }
 
-  <T> ResponseEntity<T> fetchSuccess(T response) {
+  public <T> ResponseEntity<T> fetchSuccess(T response) {
     return ResponseEntity.ok(response);
   }
 
-  ResponseEntity<ResponseDto> responseSuccess() {
+  public ResponseEntity<ResponseDto> responseSuccess() {
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(ResponseDto.builder()
@@ -33,7 +33,7 @@ public class ResponseBuilder {
             .build());
   }
 
-  ResponseEntity<ResponseDto> updateFailure() {
+  public ResponseEntity<ResponseDto> updateFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
         .body(ResponseDto.builder()
@@ -42,7 +42,7 @@ public class ResponseBuilder {
             .build());
   }
 
-  ResponseEntity<ResponseDto> deleteFailure() {
+  public ResponseEntity<ResponseDto> deleteFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
         .body(ResponseDto.builder()

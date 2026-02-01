@@ -1,6 +1,7 @@
 package com.igor.loans.controller;
 
 import com.igor.common.dto.ResponseDto;
+import com.igor.common.helper.ResponseBuilder;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
 import jakarta.validation.Valid;
