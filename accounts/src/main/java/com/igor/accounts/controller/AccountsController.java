@@ -2,9 +2,9 @@ package com.igor.accounts.controller;
 
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.service.IAccountsService;
-import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ErrorResponseDto;
 import com.igor.common.dto.ResponseDto;
+import com.igor.common.helper.ResponseBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AccountsController {
 
+  private static final ResponseBuilder responseBuilder = ResponseBuilder.builder()
+      .resourceName("Account")
+      .build();
   private IAccountsService iAccountsService;
 
   @Operation(
@@ -58,12 +60,7 @@ public class AccountsController {
   @PostMapping("create")
   public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
     iAccountsService.createAccount(customerDto);
-    return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(ResponseDto.builder()
-            .statusCode(CommonConstants.STATUS_201)
-            .statusMsg(CommonConstants.MESSAGE_201)
-            .build());
+    return responseBuilder.createSuccess();
   }
 
   @Operation(
@@ -90,7 +87,7 @@ public class AccountsController {
       @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
       String mobileNumber) {
     CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
-    return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    return responseBuilder.fetchSuccess(customerDto);
   }
 
   @Operation(
@@ -120,19 +117,9 @@ public class AccountsController {
       @Valid @RequestBody CustomerDto customerDto) {
     boolean isUpdated = iAccountsService.updateAccount(customerDto);
     if (isUpdated) {
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_200)
-              .statusMsg(CommonConstants.MESSAGE_200)
-              .build());
+      return responseBuilder.responseSuccess();
     } else {
-      return ResponseEntity
-          .status(HttpStatus.EXPECTATION_FAILED)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_417)
-              .statusMsg(CommonConstants.MESSAGE_417_UPDATE)
-              .build());
+      return responseBuilder.updateFailure();
     }
   }
 
@@ -164,19 +151,9 @@ public class AccountsController {
   String mobileNumber) {
     boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
     if (isDeleted) {
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_200)
-              .statusMsg(CommonConstants.MESSAGE_200)
-              .build());
+      return responseBuilder.responseSuccess();
     } else {
-      return ResponseEntity
-          .status(HttpStatus.EXPECTATION_FAILED)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_417)
-              .statusMsg(CommonConstants.MESSAGE_417_DELETE)
-              .build());
+      return responseBuilder.deleteFailure();
     }
   }
 }
