@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
@@ -30,6 +31,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
     @ExternalDocumentation(
         description = "Igor Microservices Wiki Documentation",
         url = "http://igor.microservices.com/wiki"))
+@ComponentScan(basePackages = {"com.igor.accounts", "com.igor.common.audit"})
 public class AccountsApplication {
 
   public static void main(String[] args) {

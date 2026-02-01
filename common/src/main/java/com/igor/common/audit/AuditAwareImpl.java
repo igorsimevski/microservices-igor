@@ -1,4 +1,4 @@
-package com.igor.accounts.audit;
+package com.igor.common.audit;
 
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
