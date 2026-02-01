@@ -1,8 +1,8 @@
-package com.igor.accounts.constants;
+package com.igor.common.constants;
 
-public final class AccountsConstants {
+public final class CommonConstants {
 
-  private AccountsConstants() {
+  private CommonConstants() {
     // restrict instantiation
   }
 

@@ -1,9 +1,9 @@
 package com.igor.accounts.controller;
 
-import com.igor.accounts.constants.AccountsConstants;
+import com.igor.common.constants.CommonConstants;
 import com.igor.accounts.dto.CustomerDto;
-import com.igor.accounts.dto.ErrorResponseDto;
-import com.igor.accounts.dto.ResponseDto;
+import com.igor.common.dto.ErrorResponseDto;
+import com.igor.common.dto.ResponseDto;
 import com.igor.accounts.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -53,7 +53,7 @@ public class AccountsController {
     iAccountsService.createAccount(customerDto);
     return ResponseEntity
         .status(HttpStatus.CREATED)
-        .body(new ResponseDto(AccountsConstants.STATUS_201, AccountsConstants.MESSAGE_201));
+        .body(new ResponseDto(CommonConstants.STATUS_201, CommonConstants.MESSAGE_201));
   }
 
   @Operation(
@@ -111,12 +111,12 @@ public class AccountsController {
     if (isUpdated) {
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+          .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
     } else {
       return ResponseEntity
           .status(HttpStatus.EXPECTATION_FAILED)
           .body(
-              new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_UPDATE));
+              new ResponseDto(CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_UPDATE));
     }
   }
 
@@ -150,12 +150,12 @@ public class AccountsController {
     if (isDeleted) {
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+          .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
     } else {
       return ResponseEntity
           .status(HttpStatus.EXPECTATION_FAILED)
           .body(
-              new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
+              new ResponseDto(CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_DELETE));
     }
   }
 }

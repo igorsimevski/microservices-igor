@@ -1,6 +1,7 @@
 package com.igor.accounts.exception;
 
-import com.igor.accounts.dto.ErrorResponseDto;
+import com.igor.common.dto.ErrorResponseDto;
+import com.igor.common.exception.ResourceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;

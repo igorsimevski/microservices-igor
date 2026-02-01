@@ -1,12 +1,12 @@
 package com.igor.accounts.service.impl;
 
-import com.igor.accounts.constants.AccountsConstants;
+import com.igor.common.constants.CommonConstants;
 import com.igor.accounts.dto.AccountsDto;
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.entity.Accounts;
 import com.igor.accounts.entity.Customer;
 import com.igor.accounts.exception.CustomerAlreadyExistsException;
-import com.igor.accounts.exception.ResourceNotFoundException;
+import com.igor.common.exception.ResourceNotFoundException;
 import com.igor.accounts.mapper.AccountsMapper;
 import com.igor.accounts.mapper.CustomerMapper;
 import com.igor.accounts.repository.AccountsRepository;
@@ -52,8 +52,8 @@ public class AccountsServiceImpl implements IAccountsService {
     newAccount.setCustomerId(customer.getCustomerId());
     long randomAccNumber = 1000000000L + RANDOM.nextInt(900000000);
     newAccount.setAccountNumber(randomAccNumber);
-    newAccount.setAccountType(AccountsConstants.SAVINGS);
-    newAccount.setBranchAddress(AccountsConstants.ADDRESS);
+    newAccount.setAccountType(CommonConstants.SAVINGS);
+    newAccount.setBranchAddress(CommonConstants.ADDRESS);
     return newAccount;
   }
 

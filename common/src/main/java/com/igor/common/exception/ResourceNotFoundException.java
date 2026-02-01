@@ -1,4 +1,4 @@
-package com.igor.accounts.exception;
+package com.igor.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
