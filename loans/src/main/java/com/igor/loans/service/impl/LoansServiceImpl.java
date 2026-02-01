@@ -22,37 +22,44 @@ public class LoansServiceImpl implements LoansService {
 
   @Override
   public void createLoan(String mobileNumber) {
+    throwIfLoanPresent(mobileNumber);
+    Loans loan = LoanMapper.mapToLoan(mobileNumber);
+    loan.setLoanId(1000000000L + RANDOM.nextInt(900000000));
+    loansRepository.save(loan);
+  }
+
+  private void throwIfLoanPresent(String mobileNumber) {
     Optional<Loans> optionalLoan =
         loansRepository.findByMobileNumber(mobileNumber);
     if (optionalLoan.isPresent()) {
       throw new ResourceExistsException(
           "Loan already registered with given mobileNumber " + mobileNumber);
     }
-    Loans loan = LoanMapper.mapToLoan(mobileNumber);
-    loan.setLoanId(1000000000L + RANDOM.nextInt(900000000));
-    loansRepository.save(loan);
   }
 
   @Override
   public LoansDto fetchLoan(String mobileNumber) {
-    Loans loans = loansRepository.findByMobileNumber(mobileNumber)
-        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, mobileNumber));
+    Loans loans = getExistingLoanOrThrow(mobileNumber);
     return LoanMapper.mapToLoanDto(loans);
   }
 
   @Override
   public boolean updateLoan(LoansDto loansDto) {
-    Loans existingLoan = loansRepository.findByMobileNumber(loansDto.getMobileNumber())
-        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, loansDto.getMobileNumber()));
+    Loans existingLoan = getExistingLoanOrThrow(loansDto.getMobileNumber());
     Loans loan = LoanMapper.mapToLoan(loansDto, existingLoan);
     loansRepository.save(loan);
     return true;
   }
 
+  private Loans getExistingLoanOrThrow(String mobileNumber) {
+    return loansRepository.findByMobileNumber(mobileNumber)
+        .orElseThrow(
+            () -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, mobileNumber));
+  }
+
   @Override
   public boolean deleteLoan(String mobileNumber) {
-    Loans loans = loansRepository.findByMobileNumber(mobileNumber)
-        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, mobileNumber));
+    Loans loans = getExistingLoanOrThrow(mobileNumber);
     loansRepository.delete(loans);
     return true;
   }
