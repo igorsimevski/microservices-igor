@@ -6,6 +6,7 @@ import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,8 +40,11 @@ public class LoansController {
   }
 
   @GetMapping("fetch")
-  public ResponseEntity<LoansDto> fetchLoan() {
-    return ResponseEntity.ok(loansService.fetchLoan("asd"));
+  public ResponseEntity<LoansDto> fetchLoan(
+      @RequestParam
+      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      String mobileNumber) {
+    return ResponseEntity.ok(loansService.fetchLoan(mobileNumber));
   }
 
   @PutMapping("update")
@@ -52,10 +56,25 @@ public class LoansController {
   }
 
   @DeleteMapping("delete")
-  public ResponseEntity<ResponseDto> deleteLoan() {
-    return ResponseEntity.ok(ResponseDto.builder()
-        .statusCode(CommonConstants.STATUS_200)
-        .statusMsg(CommonConstants.MESSAGE_200)
-        .build());
+  public ResponseEntity<ResponseDto> deleteLoan(
+      @RequestParam
+      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      String mobileNumber) {
+    boolean isDeleted = loansService.deleteLoan(mobileNumber);
+    if (isDeleted) {
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_200)
+              .statusMsg(CommonConstants.MESSAGE_200)
+              .build());
+    } else {
+      return ResponseEntity
+          .status(HttpStatus.EXPECTATION_FAILED)
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_417)
+              .statusMsg(CommonConstants.MESSAGE_417_DELETE)
+              .build());
+    }
   }
 }
