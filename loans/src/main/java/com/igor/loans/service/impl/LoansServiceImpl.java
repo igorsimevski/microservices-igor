@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class LoansServiceImpl implements LoansService {
   private static final Random RANDOM = new Random();
   private static final String RESOURCE_NAME_LOAN = "Loan";
+  protected static final String FIELD_MOBILE_NUMBER = "mobileNumber";
   private LoansRepository loansRepository;
 
   @Override
@@ -35,19 +36,23 @@ public class LoansServiceImpl implements LoansService {
   @Override
   public LoansDto fetchLoan(String mobileNumber) {
     Loans loans = loansRepository.findByMobileNumber(mobileNumber)
-        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, "mobileNumber", mobileNumber));
+        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, mobileNumber));
     return LoanMapper.mapToLoanDto(loans);
   }
 
   @Override
-  public boolean updateLoan(LoansDto loanDto) {
+  public boolean updateLoan(LoansDto loansDto) {
+    Loans existingLoan = loansRepository.findByMobileNumber(loansDto.getMobileNumber())
+        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, loansDto.getMobileNumber()));
+    Loans loan = LoanMapper.mapToLoan(loansDto, existingLoan);
+    loansRepository.save(loan);
     return true;
   }
 
   @Override
   public boolean deleteLoan(String mobileNumber) {
     Loans loans = loansRepository.findByMobileNumber(mobileNumber)
-        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, "mobileNumber", mobileNumber));
+        .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NAME_LOAN, FIELD_MOBILE_NUMBER, mobileNumber));
     loansRepository.delete(loans);
     return true;
   }

@@ -4,6 +4,7 @@ import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ResponseDto;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,11 +50,24 @@ public class LoansController {
   }
 
   @PutMapping("update")
-  public ResponseEntity<ResponseDto> updateLoan() {
-    return ResponseEntity.ok(ResponseDto.builder()
-        .statusCode(CommonConstants.STATUS_200)
-        .statusMsg(CommonConstants.MESSAGE_200)
-        .build());
+  public ResponseEntity<ResponseDto> updateLoan(
+      @Valid @RequestBody LoansDto loansDto) {
+    boolean isUpdated = loansService.updateLoan(loansDto);
+    if (isUpdated) {
+      return ResponseEntity
+          .status(HttpStatus.OK)
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_200)
+              .statusMsg(CommonConstants.MESSAGE_200)
+              .build());
+    } else {
+      return ResponseEntity
+          .status(HttpStatus.EXPECTATION_FAILED)
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_417)
+              .statusMsg(CommonConstants.MESSAGE_417_UPDATE)
+              .build());
+    }
   }
 
   @DeleteMapping("delete")

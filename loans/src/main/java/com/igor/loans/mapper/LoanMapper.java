@@ -30,4 +30,14 @@ public class LoanMapper {
         .outstandingAmount(500000)
         .build();
   }
+
+  public static Loans mapToLoan(LoansDto loansDto, Loans loan) {
+    loan.setMobileNumber(loansDto.getMobileNumber());
+    loan.setLoanNumber(loansDto.getLoanNumber());
+    loan.setLoanType(loansDto.getLoanType());
+    loan.setTotalLoan(loansDto.getTotalLoan());
+    loan.setAmountPaid(loansDto.getAmountPaid());
+    loan.setOutstandingAmount(loansDto.getOutstandingAmount());
+    return loan;
+  }
 }
