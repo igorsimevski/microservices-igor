@@ -13,11 +13,11 @@ public class LoansResponse {
     throw new IllegalStateException("Utility class");
   }
 
-  static ResponseDto createLoanSuccess() {
-    return ResponseDto.builder()
+  static ResponseEntity<ResponseDto> createLoanSuccess() {
+    return ResponseEntity.ok(ResponseDto.builder()
         .statusCode(CommonConstants.STATUS_201)
         .statusMsg(String.format(CommonConstants.MESSAGE_201, RESOURCE_NAME_LOAN))
-        .build();
+        .build());
   }
 
   static ResponseEntity<ResponseDto> responseSuccess() {

@@ -38,7 +38,7 @@ public class LoansController {
       @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     loansService.createLoan(mobileNumber);
-    return ResponseEntity.ok(createLoanSuccess());
+    return createLoanSuccess();
   }
 
   @GetMapping("fetch")
