@@ -1,13 +1,16 @@
 package com.igor.loans.controller;
 
-import com.igor.common.constants.CommonConstants;
+import static com.igor.loans.controller.LoansResponse.createLoanSuccess;
+import static com.igor.loans.controller.LoansResponse.deleteLoanFailure;
+import static com.igor.loans.controller.LoansResponse.responseSuccess;
+import static com.igor.loans.controller.LoansResponse.updateLoanFailure;
+
 import com.igor.common.dto.ResponseDto;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,25 +29,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class LoansController {
 
-  private static final String RESOURCE_NAME_LOAN = "Loan";
+  private static final String VALIDATION_10_DIGIT_NUMBER = "Mobile number must be 10 digits";
   private LoansService loansService;
 
   @PostMapping("create")
   public ResponseEntity<ResponseDto> createLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     loansService.createLoan(mobileNumber);
-    return ResponseEntity.ok(ResponseDto.builder()
-        .statusCode(CommonConstants.STATUS_201)
-        .statusMsg(String.format(CommonConstants.MESSAGE_201, RESOURCE_NAME_LOAN))
-        .build());
+    return ResponseEntity.ok(createLoanSuccess());
   }
 
   @GetMapping("fetch")
   public ResponseEntity<LoansDto> fetchLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     return ResponseEntity.ok(loansService.fetchLoan(mobileNumber));
   }
@@ -54,42 +54,22 @@ public class LoansController {
       @Valid @RequestBody LoansDto loansDto) {
     boolean isUpdated = loansService.updateLoan(loansDto);
     if (isUpdated) {
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_200)
-              .statusMsg(CommonConstants.MESSAGE_200)
-              .build());
+      return responseSuccess();
     } else {
-      return ResponseEntity
-          .status(HttpStatus.EXPECTATION_FAILED)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_417)
-              .statusMsg(CommonConstants.MESSAGE_417_UPDATE)
-              .build());
+      return updateLoanFailure();
     }
   }
 
   @DeleteMapping("delete")
   public ResponseEntity<ResponseDto> deleteLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     boolean isDeleted = loansService.deleteLoan(mobileNumber);
     if (isDeleted) {
-      return ResponseEntity
-          .status(HttpStatus.OK)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_200)
-              .statusMsg(CommonConstants.MESSAGE_200)
-              .build());
+      return responseSuccess();
     } else {
-      return ResponseEntity
-          .status(HttpStatus.EXPECTATION_FAILED)
-          .body(ResponseDto.builder()
-              .statusCode(CommonConstants.STATUS_417)
-              .statusMsg(CommonConstants.MESSAGE_417_DELETE)
-              .build());
+      return deleteLoanFailure();
     }
   }
 }
