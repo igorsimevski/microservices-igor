@@ -31,7 +31,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
     @ExternalDocumentation(
         description = "Igor Microservices Wiki Documentation",
         url = "http://igor.microservices.com/wiki"))
-@ComponentScan(basePackages = {"com.igor.accounts", "com.igor.common.audit"})
+@ComponentScan(basePackages = {"com.igor.accounts", "com.igor.common.audit", "com.igor.common.exception"})
 public class AccountsApplication {
 
   public static void main(String[] args) {

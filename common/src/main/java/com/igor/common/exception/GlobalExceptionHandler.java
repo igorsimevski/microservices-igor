@@ -1,8 +1,6 @@
-package com.igor.accounts.exception;
+package com.igor.common.exception;
 
 import com.igor.common.dto.ErrorResponseDto;
-import com.igor.common.exception.ResourceExistsException;
-import com.igor.common.exception.ResourceNotFoundException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +18,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class AccountsExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(

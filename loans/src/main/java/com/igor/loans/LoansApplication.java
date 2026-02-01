@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.igor.loans", "com.igor.common.audit"})
+@ComponentScan(basePackages = {"com.igor.loans", "com.igor.common.audit", "com.igor.common.exception"})
 public class LoansApplication {
 
   public static void main(String[] args) {
