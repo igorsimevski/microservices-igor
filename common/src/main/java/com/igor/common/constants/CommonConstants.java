@@ -1,5 +1,7 @@
 package com.igor.common.constants;
 
+import java.util.Random;
+
 public final class CommonConstants {
 
   private static final String PREFIX = "com.igor.";
@@ -12,6 +14,7 @@ public final class CommonConstants {
     // restrict instantiation
   }
 
+  public static final Random RANDOM = new Random();
   public static final String SAVINGS = "Savings";
   public static final String ADDRESS = "123 Main Street, New York";
   public static final String STATUS_201 = "201";

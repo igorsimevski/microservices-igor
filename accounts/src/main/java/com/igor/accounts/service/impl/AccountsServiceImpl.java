@@ -1,27 +1,24 @@
 package com.igor.accounts.service.impl;
 
-import com.igor.common.constants.CommonConstants;
 import com.igor.accounts.dto.AccountsDto;
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.entity.Accounts;
 import com.igor.accounts.entity.Customer;
-import com.igor.common.exception.ResourceExistsException;
-import com.igor.common.exception.ResourceNotFoundException;
 import com.igor.accounts.mapper.AccountsMapper;
 import com.igor.accounts.mapper.CustomerMapper;
 import com.igor.accounts.repository.AccountsRepository;
 import com.igor.accounts.repository.CustomerRepository;
 import com.igor.accounts.service.IAccountsService;
+import com.igor.common.constants.CommonConstants;
+import com.igor.common.exception.ResourceExistsException;
+import com.igor.common.exception.ResourceNotFoundException;
 import java.util.Optional;
-import java.util.Random;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class AccountsServiceImpl implements IAccountsService {
-
-  private static final Random RANDOM = new Random();
 
   private static final String RESOURCE_NAME_CUSTOMER = "Customer";
   private AccountsRepository accountsRepository;
@@ -54,7 +51,7 @@ public class AccountsServiceImpl implements IAccountsService {
   private Accounts createNewAccount(Customer customer) {
     Accounts newAccount = new Accounts();
     newAccount.setCustomerId(customer.getCustomerId());
-    long randomAccNumber = 1000000000L + RANDOM.nextInt(900000000);
+    long randomAccNumber = 1000000000L + CommonConstants.RANDOM.nextInt(900000000);
     newAccount.setAccountNumber(randomAccNumber);
     newAccount.setAccountType(CommonConstants.SAVINGS);
     newAccount.setBranchAddress(CommonConstants.ADDRESS);
