@@ -14,8 +14,10 @@ public class ErrorResponseDto {
   @Schema(description = "API path invoked by client")
   private String apiPath;
 
-  @Schema(description = "Error code representing the error happened", example = "1234 eror")
+  @Schema(description = "Error code representing the error", example = "404")
   private int code;
+
+  @Schema(description = "Error code description representing the error", example = "404 NOT FOUND")
   private HttpStatus codeDescription;
 
   @Schema(description = "Error message representing the error happened")
