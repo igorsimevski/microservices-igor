@@ -11,11 +11,6 @@ public class ResponseBuilder {
 
   private final String resourceName;
 
-
-  private ResponseBuilder() {
-    throw new IllegalStateException("Utility class");
-  }
-
   ResponseEntity<ResponseDto> createSuccess() {
     return ResponseEntity
         .status(HttpStatus.CREATED)
