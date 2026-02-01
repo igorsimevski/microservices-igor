@@ -1,0 +1,17 @@
+services:
+  accounts:
+    build: ./accounts
+    container_name: accounts_s4
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    networks:
+      - app-bank
+
+networks:
+  app-bank:
+    driver: bridge
