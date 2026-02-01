@@ -1,5 +1,9 @@
 package com.igor.accounts;
 
+import static com.igor.common.constants.CommonConstants.ACCOUNTS;
+import static com.igor.common.constants.CommonConstants.AUDIT;
+import static com.igor.common.constants.CommonConstants.EXCEPTION;
+
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -7,11 +11,10 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {ACCOUNTS, AUDIT, EXCEPTION})
 @OpenAPIDefinition(
     info =
     @Info(
@@ -31,9 +34,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
     @ExternalDocumentation(
         description = "Igor Microservices Wiki Documentation",
         url = "http://igor.microservices.com/wiki"))
-@ComponentScan(basePackages = {"com.igor.accounts", "com.igor.common.audit", "com.igor.common.exception"})
 public class AccountsApplication {
-
   public static void main(String[] args) {
     SpringApplication.run(AccountsApplication.class, args);
   }

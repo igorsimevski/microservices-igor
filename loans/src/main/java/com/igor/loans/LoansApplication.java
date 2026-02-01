@@ -1,15 +1,16 @@
 package com.igor.loans;
 
+import static com.igor.common.constants.CommonConstants.AUDIT;
+import static com.igor.common.constants.CommonConstants.EXCEPTION;
+import static com.igor.common.constants.CommonConstants.LOANS;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication
-@ComponentScan(basePackages = {"com.igor.loans", "com.igor.common.audit", "com.igor.common.exception"})
+@SpringBootApplication(scanBasePackages = {LOANS, AUDIT, EXCEPTION})
 public class LoansApplication {
-
   public static void main(String[] args) {
     SpringApplication.run(LoansApplication.class, args);
   }

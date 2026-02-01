@@ -2,6 +2,12 @@ package com.igor.common.constants;
 
 public final class CommonConstants {
 
+  private static final String PREFIX = "com.igor.";
+  public static final String ACCOUNTS = PREFIX + "accounts";
+  public static final String LOANS = PREFIX + "loans";
+  public static final String AUDIT = PREFIX + "common.audit";
+  public static final String EXCEPTION = PREFIX + "common.exception";
+
   private CommonConstants() {
     // restrict instantiation
   }
