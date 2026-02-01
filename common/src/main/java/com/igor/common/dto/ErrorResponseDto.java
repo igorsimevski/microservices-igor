@@ -15,7 +15,8 @@ public class ErrorResponseDto {
   private String apiPath;
 
   @Schema(description = "Error code representing the error happened", example = "1234 eror")
-  private HttpStatus code;
+  private int code;
+  private HttpStatus codeDescription;
 
   @Schema(description = "Error message representing the error happened")
   private String message;
