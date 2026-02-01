@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LoansDto {
+public class LoanDto {
   private Long loanId;
   private String mobileNumber;
   private String loanNumber;
