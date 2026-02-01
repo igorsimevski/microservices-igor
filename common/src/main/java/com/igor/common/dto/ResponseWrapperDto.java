@@ -1,5 +1,6 @@
 package com.igor.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Locale;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,10 @@ public class ResponseWrapperDto {
     }
   }
   private Type type;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   private ErrorResponseDto error;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private StatusDto status;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object data;
 }

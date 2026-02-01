@@ -1,7 +1,8 @@
 package com.igor.common.helper;
 
 import com.igor.common.constants.CommonConstants;
-import com.igor.common.dto.ResponseDto;
+import com.igor.common.dto.ResponseWrapperDto;
+import com.igor.common.dto.StatusDto;
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,43 +12,51 @@ public class ResponseBuilder {
 
   private final String resourceName;
 
-  public ResponseEntity<ResponseDto> createSuccess() {
+  public ResponseEntity<ResponseWrapperDto> createSuccess() {
     return ResponseEntity
         .status(HttpStatus.CREATED)
-        .body(ResponseDto.builder()
-            .statusCode(CommonConstants.STATUS_201)
-            .statusMsg(String.format(CommonConstants.MESSAGE_201, resourceName))
-            .build());
+        .body(wrapStatus(CommonConstants.STATUS_201,
+            String.format(CommonConstants.MESSAGE_201, resourceName)));
   }
 
-  public <T> ResponseEntity<T> fetchSuccess(T response) {
-    return ResponseEntity.ok(response);
+  private ResponseWrapperDto wrapStatus(String code, String message) {
+    return ResponseWrapperDto.builder()
+        .type(ResponseWrapperDto.Type.STATUS)
+        .status(StatusDto.builder().code(code).message(message).build())
+        .build();
   }
 
-  public ResponseEntity<ResponseDto> responseSuccess() {
+  public <T> ResponseEntity<ResponseWrapperDto> fetchSuccess(T response) {
+    return ResponseEntity.ok(ResponseWrapperDto.builder()
+        .type(ResponseWrapperDto.Type.DATA)
+        .data(response)
+        .build());
+  }
+
+  public ResponseEntity<ResponseWrapperDto> responseSuccess() {
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(ResponseDto.builder()
-            .statusCode(CommonConstants.STATUS_200)
-            .statusMsg(CommonConstants.MESSAGE_200)
-            .build());
+        .body(
+            wrapStatus(
+                CommonConstants.STATUS_200,
+                CommonConstants.MESSAGE_200));
   }
 
-  public ResponseEntity<ResponseDto> updateFailure() {
+  public ResponseEntity<ResponseWrapperDto> updateFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
-        .body(ResponseDto.builder()
-            .statusCode(CommonConstants.STATUS_417)
-            .statusMsg(CommonConstants.MESSAGE_417_UPDATE)
-            .build());
+        .body(
+            wrapStatus(
+                CommonConstants.STATUS_417,
+                CommonConstants.MESSAGE_417_UPDATE));
   }
 
-  public ResponseEntity<ResponseDto> deleteFailure() {
+  public ResponseEntity<ResponseWrapperDto> deleteFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
-        .body(ResponseDto.builder()
-            .statusCode(CommonConstants.STATUS_417)
-            .statusMsg(CommonConstants.MESSAGE_417_DELETE)
-            .build());
+        .body(
+            wrapStatus(
+                CommonConstants.STATUS_417,
+                CommonConstants.MESSAGE_417_UPDATE));
   }
 }

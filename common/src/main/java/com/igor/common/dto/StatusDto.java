@@ -7,11 +7,11 @@ import lombok.Data;
 @Schema(name = "Response", description = "Schema to hold successful response information")
 @Data
 @Builder
-public class ResponseDto {
+public class StatusDto {
 
   @Schema(description = "Status code in the response")
-  private String statusCode;
+  private String code;
 
   @Schema(description = "Status message in the response")
-  private String statusMsg;
+  private String message;
 }

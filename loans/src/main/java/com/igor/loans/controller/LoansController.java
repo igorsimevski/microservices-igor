@@ -1,6 +1,6 @@
 package com.igor.loans.controller;
 
-import com.igor.common.dto.ResponseDto;
+import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.helper.ResponseBuilder;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
@@ -33,7 +33,7 @@ public class LoansController {
   private LoansService loansService;
 
   @PostMapping("create")
-  public ResponseEntity<ResponseDto> createLoan(
+  public ResponseEntity<ResponseWrapperDto> createLoan(
       @RequestParam
       @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
@@ -42,7 +42,7 @@ public class LoansController {
   }
 
   @GetMapping("fetch")
-  public ResponseEntity<LoansDto> fetchLoan(
+  public ResponseEntity<ResponseWrapperDto> fetchLoan(
       @RequestParam
       @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
@@ -50,7 +50,7 @@ public class LoansController {
   }
 
   @PutMapping("update")
-  public ResponseEntity<ResponseDto> updateLoan(
+  public ResponseEntity<ResponseWrapperDto> updateLoan(
       @Valid @RequestBody LoansDto loansDto) {
     boolean isUpdated = loansService.updateLoan(loansDto);
     if (isUpdated) {
@@ -61,7 +61,7 @@ public class LoansController {
   }
 
   @DeleteMapping("delete")
-  public ResponseEntity<ResponseDto> deleteLoan(
+  public ResponseEntity<ResponseWrapperDto> deleteLoan(
       @RequestParam
       @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {

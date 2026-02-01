@@ -3,7 +3,7 @@ package com.igor.accounts.controller;
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.service.IAccountsService;
 import com.igor.common.dto.ErrorResponseDto;
-import com.igor.common.dto.ResponseDto;
+import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.helper.ResponseBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -58,7 +58,8 @@ public class AccountsController {
           ))
   })
   @PostMapping("create")
-  public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
+  public ResponseEntity<ResponseWrapperDto> createAccount(
+      @Valid @RequestBody CustomerDto customerDto) {
     iAccountsService.createAccount(customerDto);
     return responseBuilder.createSuccess();
   }
@@ -82,7 +83,7 @@ public class AccountsController {
   }
   )
   @GetMapping("fetch")
-  public ResponseEntity<CustomerDto> fetchAccountDetails(
+  public ResponseEntity<ResponseWrapperDto> fetchAccountDetails(
       @RequestParam
       @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
       String mobileNumber) {
@@ -113,7 +114,7 @@ public class AccountsController {
   }
   )
   @PutMapping("update")
-  public ResponseEntity<ResponseDto> updateAccountDetails(
+  public ResponseEntity<ResponseWrapperDto> updateAccountDetails(
       @Valid @RequestBody CustomerDto customerDto) {
     boolean isUpdated = iAccountsService.updateAccount(customerDto);
     if (isUpdated) {
@@ -146,9 +147,10 @@ public class AccountsController {
   }
   )
   @DeleteMapping("delete")
-  public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam
-  @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
-  String mobileNumber) {
+  public ResponseEntity<ResponseWrapperDto> deleteAccountDetails(
+      @RequestParam
+      @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
+      String mobileNumber) {
     boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
     if (isDeleted) {
       return responseBuilder.responseSuccess();
