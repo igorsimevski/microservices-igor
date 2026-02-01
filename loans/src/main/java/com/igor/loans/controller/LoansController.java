@@ -1,10 +1,5 @@
 package com.igor.loans.controller;
 
-import static com.igor.loans.controller.LoansResponse.createLoanSuccess;
-import static com.igor.loans.controller.LoansResponse.deleteLoanFailure;
-import static com.igor.loans.controller.LoansResponse.responseSuccess;
-import static com.igor.loans.controller.LoansResponse.updateLoanFailure;
-
 import com.igor.common.dto.ResponseDto;
 import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
@@ -29,24 +24,28 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class LoansController {
 
+  private static final String VALIDATION_10_DIGIT_REGEX = "(^$|\\d{10})";
   private static final String VALIDATION_10_DIGIT_NUMBER = "Mobile number must be 10 digits";
+  private static final ResponseBuilder responseBuilder = ResponseBuilder.builder()
+      .resourceName("Loan")
+      .build();
   private LoansService loansService;
 
   @PostMapping("create")
   public ResponseEntity<ResponseDto> createLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
+      @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     loansService.createLoan(mobileNumber);
-    return createLoanSuccess();
+    return responseBuilder.createSuccess();
   }
 
   @GetMapping("fetch")
   public ResponseEntity<LoansDto> fetchLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
+      @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
-    return ResponseEntity.ok(loansService.fetchLoan(mobileNumber));
+    return responseBuilder.fetchSuccess(loansService.fetchLoan(mobileNumber));
   }
 
   @PutMapping("update")
@@ -54,22 +53,22 @@ public class LoansController {
       @Valid @RequestBody LoansDto loansDto) {
     boolean isUpdated = loansService.updateLoan(loansDto);
     if (isUpdated) {
-      return responseSuccess();
+      return responseBuilder.responseSuccess();
     } else {
-      return updateLoanFailure();
+      return responseBuilder.updateFailure();
     }
   }
 
   @DeleteMapping("delete")
   public ResponseEntity<ResponseDto> deleteLoan(
       @RequestParam
-      @Pattern(regexp = "(^$|\\d{10})", message = VALIDATION_10_DIGIT_NUMBER)
+      @Pattern(regexp = VALIDATION_10_DIGIT_REGEX, message = VALIDATION_10_DIGIT_NUMBER)
       String mobileNumber) {
     boolean isDeleted = loansService.deleteLoan(mobileNumber);
     if (isDeleted) {
-      return responseSuccess();
+      return responseBuilder.responseSuccess();
     } else {
-      return deleteLoanFailure();
+      return responseBuilder.deleteFailure();
     }
   }
 }

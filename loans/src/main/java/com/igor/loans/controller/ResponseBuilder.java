@@ -2,25 +2,34 @@ package com.igor.loans.controller;
 
 import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ResponseDto;
+import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class LoansResponse {
+@Builder
+public class ResponseBuilder {
 
-  private static final String RESOURCE_NAME_LOAN = "Loan";
+  private final String resourceName;
 
-  private LoansResponse() {
+
+  private ResponseBuilder() {
     throw new IllegalStateException("Utility class");
   }
 
-  static ResponseEntity<ResponseDto> createLoanSuccess() {
-    return ResponseEntity.ok(ResponseDto.builder()
-        .statusCode(CommonConstants.STATUS_201)
-        .statusMsg(String.format(CommonConstants.MESSAGE_201, RESOURCE_NAME_LOAN))
-        .build());
+  ResponseEntity<ResponseDto> createSuccess() {
+    return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(ResponseDto.builder()
+            .statusCode(CommonConstants.STATUS_201)
+            .statusMsg(String.format(CommonConstants.MESSAGE_201, resourceName))
+            .build());
   }
 
-  static ResponseEntity<ResponseDto> responseSuccess() {
+  <T> ResponseEntity<T> fetchSuccess(T response) {
+    return ResponseEntity.ok(response);
+  }
+
+  ResponseEntity<ResponseDto> responseSuccess() {
     return ResponseEntity
         .status(HttpStatus.OK)
         .body(ResponseDto.builder()
@@ -29,7 +38,7 @@ public class LoansResponse {
             .build());
   }
 
-  static ResponseEntity<ResponseDto> updateLoanFailure() {
+  ResponseEntity<ResponseDto> updateFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
         .body(ResponseDto.builder()
@@ -38,7 +47,7 @@ public class LoansResponse {
             .build());
   }
 
-  static ResponseEntity<ResponseDto> deleteLoanFailure() {
+  ResponseEntity<ResponseDto> deleteFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
         .body(ResponseDto.builder()
