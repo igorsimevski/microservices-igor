@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 @Builder
-public class LoanDto {
+public class LoansDto {
   private Long loanId;
   private String mobileNumber;
   private String loanNumber;
   private String loanType;
-  private double totalLoan;
-  private double amountPaid;
-  private double outstandingAmount;
+  private int totalLoan;
+  private int amountPaid;
+  private int outstandingAmount;
 }

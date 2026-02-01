@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Loan extends BaseEntity {
+public class Loans extends BaseEntity {
   @Id
   private Long loanId;
   private String mobileNumber;

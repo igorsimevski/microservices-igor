@@ -2,7 +2,7 @@ package com.igor.loans.controller;
 
 import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ResponseDto;
-import com.igor.loans.dto.LoanDto;
+import com.igor.loans.dto.LoansDto;
 import com.igor.loans.service.LoansService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,6 +26,10 @@ public class LoansController {
 
   @PostMapping("create")
   public ResponseEntity<ResponseDto> createLoan() {
+    loansService.createLoan(LoansDto.builder()
+        .mobileNumber("someM")
+        .loanNumber("someN")
+        .loanType("someT").build());
     return ResponseEntity.ok(ResponseDto.builder()
         .statusCode(CommonConstants.STATUS_201)
         .statusMsg(String.format(CommonConstants.MESSAGE_201, RESOURCE_NAME_LOAN))
@@ -33,7 +37,7 @@ public class LoansController {
   }
 
   @GetMapping("fetch")
-  public ResponseEntity<LoanDto> fetchLoan() {
+  public ResponseEntity<LoansDto> fetchLoan() {
     return ResponseEntity.ok(loansService.fetchLoan("asd"));
   }
 
