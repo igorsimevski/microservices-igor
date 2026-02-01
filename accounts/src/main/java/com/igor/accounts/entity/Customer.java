@@ -1,5 +1,6 @@
 package com.igor.accounts.entity;
 
+import com.igor.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
