@@ -1,10 +1,10 @@
 package com.igor.accounts.controller;
 
-import com.igor.common.constants.CommonConstants;
 import com.igor.accounts.dto.CustomerDto;
+import com.igor.accounts.service.IAccountsService;
+import com.igor.common.constants.CommonConstants;
 import com.igor.common.dto.ErrorResponseDto;
 import com.igor.common.dto.ResponseDto;
-import com.igor.accounts.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +18,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(
     name = "CRUD REST APIs for Accounts",
@@ -53,7 +60,10 @@ public class AccountsController {
     iAccountsService.createAccount(customerDto);
     return ResponseEntity
         .status(HttpStatus.CREATED)
-        .body(new ResponseDto(CommonConstants.STATUS_201, CommonConstants.MESSAGE_201));
+        .body(ResponseDto.builder()
+            .statusCode(CommonConstants.STATUS_201)
+            .statusMsg(CommonConstants.MESSAGE_201)
+            .build());
   }
 
   @Operation(
@@ -111,12 +121,17 @@ public class AccountsController {
     if (isUpdated) {
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_200)
+              .statusMsg(CommonConstants.MESSAGE_200)
+              .build());
     } else {
       return ResponseEntity
           .status(HttpStatus.EXPECTATION_FAILED)
-          .body(
-              new ResponseDto(CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_UPDATE));
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_417)
+              .statusMsg(CommonConstants.MESSAGE_417_UPDATE)
+              .build());
     }
   }
 
@@ -150,12 +165,17 @@ public class AccountsController {
     if (isDeleted) {
       return ResponseEntity
           .status(HttpStatus.OK)
-          .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_200)
+              .statusMsg(CommonConstants.MESSAGE_200)
+              .build());
     } else {
       return ResponseEntity
           .status(HttpStatus.EXPECTATION_FAILED)
-          .body(
-              new ResponseDto(CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_DELETE));
+          .body(ResponseDto.builder()
+              .statusCode(CommonConstants.STATUS_417)
+              .statusMsg(CommonConstants.MESSAGE_417_DELETE)
+              .build());
     }
   }
 }

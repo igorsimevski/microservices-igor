@@ -23,7 +23,7 @@ public class AccountsServiceImpl implements IAccountsService {
 
   private static final Random RANDOM = new Random();
 
-  protected static final String RESOURCE_NAME_CUSTOMER = "Customer";
+  private static final String RESOURCE_NAME_CUSTOMER = "Customer";
   private AccountsRepository accountsRepository;
   private CustomerRepository customerRepository;
 
