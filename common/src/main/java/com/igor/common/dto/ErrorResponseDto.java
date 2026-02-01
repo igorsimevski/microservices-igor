@@ -2,12 +2,12 @@ package com.igor.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-@AllArgsConstructor
+@Builder
 @Schema(name = "ErrorResponse", description = "Schema to hold error response information")
 public class ErrorResponseDto {
 
@@ -15,11 +15,11 @@ public class ErrorResponseDto {
   private String apiPath;
 
   @Schema(description = "Error code representing the error happened", example = "1234 eror")
-  private HttpStatus errorCode;
+  private HttpStatus code;
 
   @Schema(description = "Error message representing the error happened")
-  private String errorMessage;
+  private String message;
 
   @Schema(description = "Time representing when the error happened")
-  private LocalDateTime errorTime;
+  private LocalDateTime time;
 }

@@ -1,6 +1,7 @@
 package com.igor.common.exception;
 
 import com.igor.common.dto.ErrorResponseDto;
+import com.igor.common.dto.ResponseWrapperDto;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -37,41 +38,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponseDto> handleGlobalException(
+  public ResponseEntity<ResponseWrapperDto> handleGlobalException(
       Exception exception,
       WebRequest webRequest) {
-    ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-        webRequest.getDescription(false),
-        HttpStatus.INTERNAL_SERVER_ERROR,
-        exception.getMessage(),
-        LocalDateTime.now()
-    );
-    return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, webRequest, exception);
+  }
+
+  private static ResponseEntity<ResponseWrapperDto> buildErrorResponse(
+      HttpStatus httpStatus,
+      WebRequest webRequest,
+      Exception exception) {
+    return new ResponseEntity<>(ResponseWrapperDto.builder()
+        .type(ResponseWrapperDto.Type.ERROR)
+        .error(ErrorResponseDto.builder()
+            .apiPath(webRequest.getDescription(false))
+            .code(httpStatus)
+            .message(exception.getMessage())
+            .time(LocalDateTime.now())
+            .build())
+        .build(),
+        httpStatus);
   }
 
   @ExceptionHandler(ResourceNotFoundException.class)
-  public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(
+  public ResponseEntity<ResponseWrapperDto> handleResourceNotFoundException(
       ResourceNotFoundException exception,
       WebRequest webRequest) {
-    ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-        webRequest.getDescription(false),
-        HttpStatus.NOT_FOUND,
-        exception.getMessage(),
-        LocalDateTime.now()
-    );
-    return new ResponseEntity<>(errorResponseDTO, HttpStatus.NOT_FOUND);
+    return buildErrorResponse(HttpStatus.NOT_FOUND, webRequest, exception);
   }
 
   @ExceptionHandler(ResourceExistsException.class)
-  public ResponseEntity<ErrorResponseDto> handleCustomerAlreadyExistsException(
+  public ResponseEntity<ResponseWrapperDto> handleCustomerAlreadyExistsException(
       ResourceExistsException exception,
       WebRequest webRequest) {
-    ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
-        webRequest.getDescription(false),
-        HttpStatus.BAD_REQUEST,
-        exception.getMessage(),
-        LocalDateTime.now()
-    );
-    return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    return buildErrorResponse(HttpStatus.BAD_REQUEST, webRequest, exception);
   }
 }
