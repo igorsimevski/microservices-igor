@@ -4,6 +4,7 @@ import static com.igor.common.constants.CommonConstants.ACCOUNTS;
 import static com.igor.common.constants.CommonConstants.AUDIT;
 import static com.igor.common.constants.CommonConstants.EXCEPTION;
 
+import com.igor.common.dto.AccountsContactInfo;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -11,9 +12,11 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
+@EnableConfigurationProperties(AccountsContactInfo.class)
 @SpringBootApplication(scanBasePackages = {ACCOUNTS, AUDIT, EXCEPTION})
 @OpenAPIDefinition(
     info =

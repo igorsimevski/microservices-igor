@@ -16,3 +16,12 @@ spring:
 
 build:
   version: 1.0.0
+
+accounts:
+  message: "Welcome to the Local Accounts Service"
+  contactDetails:
+    name: "Support Team"
+    email: "support@igor.com"
+  onCallSupport:
+    +1-800-555-1234,
+    +1-800-555-5678

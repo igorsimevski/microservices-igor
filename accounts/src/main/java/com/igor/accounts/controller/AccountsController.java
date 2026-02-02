@@ -2,6 +2,7 @@ package com.igor.accounts.controller;
 
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.service.IAccountsService;
+import com.igor.common.dto.AccountsContactInfo;
 import com.igor.common.dto.BuildInfo;
 import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.helper.ResponseBuilder;
@@ -52,6 +53,9 @@ public class AccountsController {
 
   @Autowired
   private Environment environment;
+
+  @Autowired
+  private AccountsContactInfo accountsContactInfo;
 
   @Operation(
       summary = "Create Account REST API",
@@ -197,5 +201,28 @@ public class AccountsController {
         .javaVersion(environment.getProperty("java.version"))
         .javaHome(environment.getProperty("java.home"))
         .build());
+  }
+
+  @Operation(
+      summary = "Get Contact Info",
+      description = "Get contact info in case of issues"
+  )
+  @ApiResponses({
+      @ApiResponse(
+          responseCode = "200",
+          description = "HTTP Status OK"
+      ),
+      @ApiResponse(
+          responseCode = "500",
+          description = "HTTP Status Internal Server Error",
+          content = @Content(
+              schema = @Schema(implementation = ResponseWrapperDto.class)
+          )
+      )
+  }
+  )
+  @GetMapping("contact-info")
+  public ResponseEntity<ResponseWrapperDto> contactInfo() {
+    return responseBuilder.fetchSuccess(accountsContactInfo);
   }
 }
