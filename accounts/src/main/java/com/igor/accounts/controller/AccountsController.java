@@ -12,7 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,14 +32,21 @@ import org.springframework.web.bind.annotation.RestController;
 )
 @RestController
 @RequestMapping(path = "api", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 public class AccountsController {
+
+  private final IAccountsService accountsService;
+
+  public AccountsController(IAccountsService accountsService) {
+    this.accountsService = accountsService;
+  }
 
   private static final ResponseBuilder responseBuilder = ResponseBuilder.builder()
       .resourceName("Account")
       .build();
-  private IAccountsService accountsService;
+
+  @Value("${build.version}")
+  private String buildVersion;
 
   @Operation(
       summary = "Create Account REST API",
@@ -156,5 +164,28 @@ public class AccountsController {
     } else {
       return responseBuilder.deleteFailure();
     }
+  }
+
+  @Operation(
+      summary = "Get Build Info",
+      description = "Get the current build info deployed for the Accounts Service"
+  )
+  @ApiResponses({
+      @ApiResponse(
+          responseCode = "200",
+          description = "HTTP Status OK"
+      ),
+      @ApiResponse(
+          responseCode = "500",
+          description = "HTTP Status Internal Server Error",
+          content = @Content(
+              schema = @Schema(implementation = ResponseWrapperDto.class)
+          )
+      )
+  }
+  )
+  @GetMapping("build-info")
+  public ResponseEntity<ResponseWrapperDto> buildInfo() {
+    return responseBuilder.fetchSuccess(buildVersion);
   }
 }
