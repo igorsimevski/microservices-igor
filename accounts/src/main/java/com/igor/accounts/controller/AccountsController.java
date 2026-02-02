@@ -2,6 +2,7 @@ package com.igor.accounts.controller;
 
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.service.IAccountsService;
+import com.igor.common.dto.BuildInfo;
 import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.helper.ResponseBuilder;
 import io.swagger.v3.oas.annotations.Operation;
@@ -190,10 +191,11 @@ public class AccountsController {
   )
   @GetMapping("build-info")
   public ResponseEntity<ResponseWrapperDto> buildInfo() {
-    return responseBuilder.fetchSuccess(buildVersion);
-  }
-  @GetMapping("java-version")
-  public ResponseEntity<ResponseWrapperDto> javaVersion() {
-    return responseBuilder.fetchSuccess(environment.getProperty("java.version"));
+    return responseBuilder.fetchSuccess(BuildInfo
+        .builder()
+        .version(buildVersion)
+        .javaVersion(environment.getProperty("java.version"))
+        .javaHome(environment.getProperty("java.home"))
+        .build());
   }
 }
