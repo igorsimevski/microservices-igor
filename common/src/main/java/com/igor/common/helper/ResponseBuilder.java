@@ -24,7 +24,7 @@ public class ResponseBuilder {
         .body(wrapStatus(STATUS_201, String.format(MESSAGE_201, resourceName)));
   }
 
-  private ResponseWrapperDto wrapStatus(String code, String message) {
+  private ResponseWrapperDto wrapStatus(int code, String message) {
     return ResponseWrapperDto.builder()
         .type(ResponseWrapperDto.Type.STATUS)
         .status(StatusDto.builder().code(code).message(message).build())

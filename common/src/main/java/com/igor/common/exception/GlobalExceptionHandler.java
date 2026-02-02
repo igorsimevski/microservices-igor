@@ -2,6 +2,7 @@ package com.igor.common.exception;
 
 import com.igor.common.dto.ErrorResponseDto;
 import com.igor.common.dto.ResponseWrapperDto;
+import com.igor.common.dto.StatusDto;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +24,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   @Override
   protected ResponseEntity<Object> handleMethodArgumentNotValid(
-      MethodArgumentNotValidException ex,
+      MethodArgumentNotValidException exception,
       HttpHeaders headers,
       HttpStatusCode status,
       WebRequest request) {
     Map<String, String> validationErrors = new HashMap<>();
-    List<ObjectError> validationErrorList = ex.getBindingResult().getAllErrors();
+    List<ObjectError> validationErrorList = exception.getBindingResult().getAllErrors();
     validationErrorList.forEach(error -> {
       String fieldName = ((FieldError) error).getField();
       String validationMsg = error.getDefaultMessage();
@@ -50,10 +51,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       Exception exception) {
     return new ResponseEntity<>(ResponseWrapperDto.builder()
         .type(ResponseWrapperDto.Type.ERROR)
+        .status(StatusDto.builder().code(httpStatus.value()).message(httpStatus.getReasonPhrase()).build())
         .error(ErrorResponseDto.builder()
             .apiPath(webRequest.getDescription(false))
             .code(httpStatus.value())
-            .codeDescription(httpStatus)
             .message(exception.getMessage())
             .time(LocalDateTime.now())
             .build())

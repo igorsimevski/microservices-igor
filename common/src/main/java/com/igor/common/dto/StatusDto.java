@@ -10,7 +10,7 @@ import lombok.Data;
 public class StatusDto {
 
   @Schema(description = "Status code in the response")
-  private String code;
+  private int code;
 
   @Schema(description = "Status message in the response")
   private String message;

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
 
 @Data
 @Builder
@@ -16,9 +15,6 @@ public class ErrorResponseDto {
 
   @Schema(description = "Error code representing the error", example = "404")
   private int code;
-
-  @Schema(description = "Error code description representing the error", example = "404 NOT FOUND")
-  private HttpStatus codeDescription;
 
   @Schema(description = "Error message representing the error happened")
   private String message;
