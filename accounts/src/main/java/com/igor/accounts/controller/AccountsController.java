@@ -38,7 +38,7 @@ public class AccountsController {
   private static final ResponseBuilder responseBuilder = ResponseBuilder.builder()
       .resourceName("Account")
       .build();
-  private IAccountsService iAccountsService;
+  private IAccountsService accountsService;
 
   @Operation(
       summary = "Create Account REST API",
@@ -59,7 +59,7 @@ public class AccountsController {
   @PostMapping("create")
   public ResponseEntity<ResponseWrapperDto> createAccount(
       @Valid @RequestBody CustomerDto customerDto) {
-    iAccountsService.createAccount(customerDto);
+    accountsService.createAccount(customerDto);
     return responseBuilder.createSuccess();
   }
 
@@ -86,7 +86,7 @@ public class AccountsController {
       @RequestParam
       @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
       String mobileNumber) {
-    CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
+    CustomerDto customerDto = accountsService.fetchAccount(mobileNumber);
     return responseBuilder.fetchSuccess(customerDto);
   }
 
@@ -115,7 +115,7 @@ public class AccountsController {
   @PutMapping("update")
   public ResponseEntity<ResponseWrapperDto> updateAccountDetails(
       @Valid @RequestBody CustomerDto customerDto) {
-    boolean isUpdated = iAccountsService.updateAccount(customerDto);
+    boolean isUpdated = accountsService.updateAccount(customerDto);
     if (isUpdated) {
       return responseBuilder.responseSuccess();
     } else {
@@ -150,7 +150,7 @@ public class AccountsController {
       @RequestParam
       @Pattern(regexp = "(^$|\\d{10})", message = "Mobile number must be 10 digits")
       String mobileNumber) {
-    boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
+    boolean isDeleted = accountsService.deleteAccount(mobileNumber);
     if (isDeleted) {
       return responseBuilder.responseSuccess();
     } else {
