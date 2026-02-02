@@ -17,6 +17,7 @@ public class StatusDto {
   @Schema(description = "Status message in the response")
   private String message;
 
+  @JsonInclude(JsonInclude.Include.NON_NULL)
   @Schema(description = "API path invoked by client")
   private String apiPath;
 
