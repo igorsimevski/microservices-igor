@@ -1,6 +1,5 @@
 package com.igor.common.exception;
 
-import com.igor.common.dto.ErrorResponseDto;
 import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.dto.StatusDto;
 import java.time.LocalDateTime;
@@ -51,11 +50,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       Exception exception) {
     return new ResponseEntity<>(ResponseWrapperDto.builder()
         .type(ResponseWrapperDto.Type.ERROR)
-        .status(StatusDto.builder().code(httpStatus.value()).message(httpStatus.getReasonPhrase()).build())
-        .error(ErrorResponseDto.builder()
-            .apiPath(webRequest.getDescription(false))
+        .status(StatusDto.builder()
             .code(httpStatus.value())
-            .message(exception.getMessage())
+            .message(httpStatus.getReasonPhrase())
+            .description(exception.getMessage())
+            .apiPath(webRequest.getDescription(false))
             .time(LocalDateTime.now())
             .build())
         .build(),

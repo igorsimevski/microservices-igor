@@ -9,6 +9,7 @@ import static com.igor.common.constants.CommonConstants.STATUS_417;
 
 import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.dto.StatusDto;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,21 @@ public class ResponseBuilder {
   private ResponseWrapperDto wrapStatus(int code, String message) {
     return ResponseWrapperDto.builder()
         .type(ResponseWrapperDto.Type.STATUS)
-        .status(StatusDto.builder().code(code).message(message).build())
+        .status(StatusDto.builder()
+            .code(code)
+            .message(message)
+            .time(LocalDateTime.now())
+            .build())
         .build();
   }
 
   public <T> ResponseEntity<ResponseWrapperDto> fetchSuccess(T response) {
     return ResponseEntity.ok(ResponseWrapperDto.builder()
-        .status(StatusDto.builder().code(STATUS_200).message(MESSAGE_200).build())
+        .status(StatusDto.builder()
+            .code(STATUS_200)
+            .message(MESSAGE_200)
+            .time(LocalDateTime.now())
+            .build())
         .type(ResponseWrapperDto.Type.DATA)
         .data(response)
         .build());

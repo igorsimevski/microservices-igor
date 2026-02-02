@@ -2,7 +2,6 @@ package com.igor.accounts.controller;
 
 import com.igor.accounts.dto.CustomerDto;
 import com.igor.accounts.service.IAccountsService;
-import com.igor.common.dto.ErrorResponseDto;
 import com.igor.common.dto.ResponseWrapperDto;
 import com.igor.common.helper.ResponseBuilder;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,7 +53,7 @@ public class AccountsController {
           responseCode = "500",
           description = "HTTP Status Internal Server Error",
           content = @Content(
-              schema = @Schema(implementation = ErrorResponseDto.class)
+              schema = @Schema(implementation = ResponseWrapperDto.class)
           ))
   })
   @PostMapping("create")
@@ -77,7 +76,7 @@ public class AccountsController {
           responseCode = "500",
           description = "HTTP Status Internal Server Error",
           content = @Content(
-              schema = @Schema(implementation = ErrorResponseDto.class)
+              schema = @Schema(implementation = ResponseWrapperDto.class)
           )
       )
   }
@@ -108,7 +107,7 @@ public class AccountsController {
           responseCode = "500",
           description = "HTTP Status Internal Server Error",
           content = @Content(
-              schema = @Schema(implementation = ErrorResponseDto.class)
+              schema = @Schema(implementation = ResponseWrapperDto.class)
           )
       )
   }
@@ -141,7 +140,7 @@ public class AccountsController {
           responseCode = "500",
           description = "HTTP Status Internal Server Error",
           content = @Content(
-              schema = @Schema(implementation = ErrorResponseDto.class)
+              schema = @Schema(implementation = ResponseWrapperDto.class)
           )
       )
   }

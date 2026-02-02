@@ -18,8 +18,6 @@ public class ResponseWrapperDto {
   }
   private Type type;
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private ErrorResponseDto error;
-  @JsonInclude(JsonInclude.Include.NON_NULL)
   private StatusDto status;
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private Object data;
