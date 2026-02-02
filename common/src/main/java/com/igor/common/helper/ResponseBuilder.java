@@ -2,6 +2,7 @@ package com.igor.common.helper;
 
 import static com.igor.common.constants.CommonConstants.MESSAGE_200;
 import static com.igor.common.constants.CommonConstants.MESSAGE_201;
+import static com.igor.common.constants.CommonConstants.MESSAGE_417_DELETE;
 import static com.igor.common.constants.CommonConstants.MESSAGE_417_UPDATE;
 import static com.igor.common.constants.CommonConstants.STATUS_200;
 import static com.igor.common.constants.CommonConstants.STATUS_201;
@@ -63,6 +64,6 @@ public class ResponseBuilder {
   public ResponseEntity<ResponseWrapperDto> deleteFailure() {
     return ResponseEntity
         .status(HttpStatus.EXPECTATION_FAILED)
-        .body(wrapStatus(STATUS_417, MESSAGE_417_UPDATE));
+        .body(wrapStatus(STATUS_417, MESSAGE_417_DELETE));
   }
 }
