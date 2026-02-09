@@ -13,9 +13,16 @@ spring:
   h2:
     console:
       enabled: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "qa"
 
 build:
-  version: 1.0.0
+  version: 3.0.0
 
 accounts:
   message: "Welcome to the Local Accounts Service"
